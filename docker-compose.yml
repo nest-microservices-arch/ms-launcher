@@ -42,16 +42,15 @@ services:
         - POSTGRES_PASSWORD=${ORDERS_DB_PASSWORD}
         - POSTGRES_DB=${ORDERS_DB_NAME}
 
-  orders-ms:
+  auth-ms:
     depends_on:
       - orders-db
-    build: ./orders-ms
+    build: ./auth-ms
     volumes:
-      - ./orders-ms/src:/usr/src/app/src
+      - ./auth-ms/src:/usr/src/app/src
     command: npm run start:dev
     environment:
-      - PORT=${ORDERS_MS_PORT}
-      - DATABASE_URL=${ORDERS_MS_DATABASE_URL}
+      - PORT=${AUTH_MS_PORT}
       - NATS_SERVERS=${NATS_SERVERS}
 
   payments-ms:
