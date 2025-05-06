@@ -42,9 +42,19 @@ services:
         - POSTGRES_PASSWORD=${ORDERS_DB_PASSWORD}
         - POSTGRES_DB=${ORDERS_DB_NAME}
 
-  auth-ms:
+  orders-ms:
     depends_on:
       - orders-db
+    build: ./orders-ms
+    volumes:
+      - ./orders-ms/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=${ORDERS_MS_PORT}
+      - DATABASE_URL=${ORDERS_MS_DATABASE_URL}
+      - NATS_SERVERS=${NATS_SERVERS}
+
+  auth-ms:
     build: ./auth-ms
     volumes:
       - ./auth-ms/src:/usr/src/app/src
